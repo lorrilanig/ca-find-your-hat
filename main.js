@@ -21,6 +21,19 @@ class Field {
         while(playing) {
             this.print();
             this.handleInput();
+            if(!this.inBounds()) {
+                console.log("That move was out of bounds.")
+                playing = false;
+                break;
+            } else if (this.onHole()) {
+                console.log("Oh no, you fell in a hole")
+                playing = false;
+                break;
+            } else if (this.onHat()) {
+                console.log("You found your hat!");
+                playing = false;
+                break;
+            }
         
         //update location
         this.field[this.col][this.row] = pathCharacter;
@@ -38,6 +51,7 @@ class Field {
             const answer = prompt('Which way? ').toUpperCase();
             if (answer == 'U') {
                 this.col -= 1;
+            
             } else if (answer == 'D'){
                 this.col += 1;
             } else if (answer == 'R') {
@@ -51,13 +65,18 @@ class Field {
         }
     //method to test current location, win, hole or out-of-bounds
         inBounds(){
-
+            return (
+                this.row >= 0 &&
+                this.row <= this.field[0].length &&
+                this.col >= 0 &&
+                this.col <= this.field.length
+            )
         }
         onHat(){
-
+            return this.field[this.col][this.row] === hat;
         }
         onHole(){
-
+            return this.field[this.col][this.row] === hole;
         }
 }
 let myField = new Field([
