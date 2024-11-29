@@ -78,12 +78,30 @@ class Field {
         onHole(){
             return this.field[this.col][this.row] === hole;
         }
+    static generateField(height, width, percentage = 0.1) {
+        const field = new Array(height).fill(0).map(el => new Array(width));
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const prob = Math.random();
+                field[y][x] = prob > percentage ? fieldCharacter : hole;
+            }
+        }
+        //set hat location
+        const hatLocation = {
+            x: Math.floor(Math.random() * width),
+            y: Math.floor(Math.random() * height)
+        };
+        field[hatLocation.y][hatLocation.x] = hat;
+        return field;
+    }
 }
 let myField = new Field([
     [pathCharacter, fieldCharacter, hole],
     [fieldCharacter, hole, fieldCharacter],
     [fieldCharacter, hat, fieldCharacter]
 ])
+
+myField = new Field(Field.generateField(10,10,0.2));
 
 //myField.print();
 
